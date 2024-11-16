@@ -1,0 +1,47 @@
+﻿@model Fuehrerschein
+
+<h1>Fahrer anlegen oder bearbeiten</h1>
+<form method="post" asp-action="CreateEditLicense" asp-controller="Atemschutz">
+    <div>
+        <input hidden type="number" class="form-control" asp-for="Id" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="preName">Vorname:</label>
+        <input type="text" class="form-control" asp-for="preName" />
+        <label class="form-label" asp-for="lastName">Nachname:</label>
+        <input type="text" class="form-control" asp-for="lastName" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="ExpiringDate">Ablaufdatum am:</label>
+        <input type="date" class="form-control" asp-for="ExpiringDate" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="FSKlasse">Führerscheinklasse</label>
+        <select class="form-label" asp-for="FSKlasse">
+            <option>B</option>
+            <option>C</option>
+            <option>CE</option>
+        </select>
+    </div>
+    <div>
+        <label class="form-label" asp-for="Usage">Verwendung</label>
+        <select class="form-label" asp-for="Usage">
+            <option>Einsatzfahrer</option>
+            <option>Jugendfeuerwehr</option>
+            <option>zbV</option>
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-primary mt-2">
+        Speichern
+    </button>
+</form>
+
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

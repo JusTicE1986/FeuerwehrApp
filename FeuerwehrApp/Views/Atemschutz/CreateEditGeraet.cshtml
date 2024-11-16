@@ -1,0 +1,29 @@
+﻿@model Atemschutzgeraet
+
+<h1>Neues Atemschutzgerät anlegen</h1>
+<form method="post" asp-action="CreateEditGeraet" asp-controller="Atemschutz">
+    <div>
+        <input hidden type="number" class="form-control" asp-for="Id" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="Number">Gerätenummer neu:</label>
+        <input type="number" class="form-control" asp-for="Number" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="CheckDate">Gerät geprüft am:</label>
+        <input type="date" class="form-control" asp-for="CheckDate" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary mt-2">
+        Speichern
+    </button>
+</form>
+
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

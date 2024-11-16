@@ -1,0 +1,40 @@
+﻿@model Atemschutzmaske
+
+<h1>Maske anlegen oder bearbeiten</h1>
+<form method="post" asp-action="CreateEditMaske" asp-controller="Atemschutz">
+    <div>
+        <input hidden type="number" class="form-control" asp-for="Id" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="Number">Maskennummer neu:</label>
+        <input type="number" class="form-control" asp-for="Number" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="CheckDate" >Maske geprüft am:</label>
+        <input type="date" class="form-control" asp-for="CheckDate" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="IsPersonalized">Maske personalisiert?</label>
+        <input type="checkbox" asp-for="IsPersonalized" class="form-check-input" />
+
+    </div>
+    <div>
+        <label class="form-label" asp-for="StoragePlace">Lagerort:</label>
+        <select class="form-label" asp-for="StoragePlace">
+            <option>Im Fahrzeug</option>
+            <option>Spind</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">
+        Speichern
+    </button>
+</form>
+
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

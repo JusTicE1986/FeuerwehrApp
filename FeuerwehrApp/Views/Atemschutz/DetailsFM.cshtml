@@ -1,0 +1,36 @@
+﻿@model OverviewViewModel
+
+<div>
+
+    <h2>Übersicht der Feuerwehrleute</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="~/Images/aufschiebeschlaufen-hessen-16849-0.jpg" alt="Geräteträger" class="img-fluid" />
+        </div>
+        <div class="col-md-9" id="tblFeuerwehrleute">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Vorname</th>
+                        <th>Geburtsdatum</th>
+                        <th>Dienstgrad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var feuerwehrmann in Model.Feuerwehrmaenner)
+                    {
+                        <tr>
+                            <td>@feuerwehrmann.lastName</td>
+                            <td>@feuerwehrmann.preName</td>
+                            <td>@feuerwehrmann.Geburtsdatum.ToString("dd/MMMM/yyyy")</td>
+                            <td>
+                                @((ViewBag.Dienstgrade as Dictionary<int, string>)[(Int32)feuerwehrmann.dienstGrad])
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

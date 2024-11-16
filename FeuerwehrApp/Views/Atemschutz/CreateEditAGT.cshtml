@@ -1,0 +1,46 @@
+﻿@model Geraetetraeger
+
+<h1>Maske anlegen oder bearbeiten</h1>
+<form method="post" asp-action="CreateEditAGT" asp-controller="Atemschutz">
+    <div>
+        <input hidden type="number" class="form-control" asp-for="Id" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="preName">Vorname:</label>
+        <input type="text" class="form-control" asp-for="preName" />
+        <label class="form-label" asp-for="lastName">Nachname:</label>
+        <input type="text" class="form-control" asp-for="lastName" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="G26">G26 Untersuchung am:</label>
+        <input type="date" class="form-control" asp-for="G26" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="birthDate">Geburtsdatum:</label>
+        <input type="date" class="form-control" asp-for="birthDate" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="Belastung">Streckendurchgang am:</label>
+        <input type="date" class="form-control" asp-for="Belastung" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="Unterweisung">Theoretische Unterweisung am:</label>
+        <input type="date" class="form-control" asp-for="Unterweisung" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="Einsatz">Übung/Einsatz am:</label>
+        <input type="date" class="form-control" asp-for="Einsatz" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">
+        Speichern
+    </button>
+</form>
+
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

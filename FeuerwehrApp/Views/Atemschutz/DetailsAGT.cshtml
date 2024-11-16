@@ -1,0 +1,50 @@
+﻿@model OverviewViewModel
+
+<div>
+    
+    <h2>Übersicht der Atemschutzgeräteträger</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="~/Images/agt.png" alt="Geräteträger" class="img-fluid" />
+        </div>
+        <div class="col-md-9" id="tblAGT">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Vorname</th>
+                        <th>Tauglich?</th>
+                        <th>G26</th>
+                        <th>Streckendurchgang</th>
+                        <th>Einsatz/Übung</th>
+                        <th>Unterweisung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var agt in Model.AGT)
+                    {
+                        <tr>
+                            <td>@agt.lastName</td>
+                            <td>@agt.preName</td>
+                            <td>
+                                @if (agt.ExpiringDates.Min() >= DateTime.Now)
+                                {
+
+                                    <span class="fa fa-check-circle" style="expiring-green">Ja</span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-times-circle" style="expiring-red">Nein</span>
+                                }
+                            </td>
+                            <td>@agt.G26Expiring.ToString("dd/MM/yyyy")</td>
+                            <td>@agt.BelastungExpiring.ToString("dd/MM/yyyy")</td>
+                            <td>@agt.EinsatzExpiring.ToString("dd/MM/yyyy")</td>
+                            <td>@agt.UnterweisungExpiring.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

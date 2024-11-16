@@ -1,0 +1,40 @@
+﻿@model Feuerwehrmann
+
+<h1>Feuerwehrmann anlegen oder bearbeiten</h1>
+<form method="post" asp-action="CreateEditFM" asp-controller="Atemschutz">
+    <div>
+        <input hidden type="number" class="form-control" asp-for="Id" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="preName">Vorname:</label>
+        <input type="text" class="form-control" asp-for="preName" />
+        <label class="form-label" asp-for="lastName">Nachname:</label>
+        <input type="text" class="form-control" asp-for="lastName" />
+    </div>
+    <div>
+        <label class="form-label" asp-for="Geburtsdatum">Geburtsdatum am:</label>
+        <input type="date" class="form-control" asp-for="Geburtsdatum" />
+    </div>
+
+    <div>
+        <label class="form-label" asp-for="dienstGrad">Dienstgrad:</label>
+        <select class="form-label" asp-for="dienstGrad">
+            @foreach (var option in (Dictionary<int, string>)ViewBag.Dienstgrade)
+            {
+                <option value="@option.Key">@option.Value</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">
+        Speichern
+    </button>
+</form>
+
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

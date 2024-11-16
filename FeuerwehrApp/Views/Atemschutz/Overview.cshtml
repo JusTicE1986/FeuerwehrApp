@@ -1,0 +1,234 @@
+﻿@model OverviewViewModel
+
+<h1>Feuerwehr Vasbeck</h1>
+
+<hr />
+
+<div class="row">
+    <div class="justify-content-center col d-flex align-items-center">
+        <a class="btn btn-primary mt-2 mr-2" asp-controller="Atemschutz" asp-action="CreateEditFM">
+            Neuer Feuerwehrmann
+        </a>
+    </div>
+    <div class="justify-content-center col d-flex align-items-center">
+    <a class="btn btn-primary mt-2 mr-2" asp-controller="Atemschutz" asp-action="CreateEditAGT">
+        Neuer Geräteträger
+    </a>
+    </div>
+    <div class="justify-content-center col d-flex align-items-center">
+    <a class="btn btn-primary mt-2" asp-controller="Atemschutz" asp-action="CreateEditLicense">
+        Fahrer hinzufügen
+    </a>
+    </div>
+    <div class="justify-content-center col d-flex align-items-center">
+        <a class="btn btn-primary mt-2" asp-controller="Atemschutz" asp-action="CreateEditMaske">
+            Maske anlegen
+        </a>
+    </div>
+    <div class="justify-content-center col d-flex align-items-center">
+        <a class="btn btn-primary mt-2" asp-controller="Atemschutz" asp-action="CreateEditGeraet">
+            Gerät anlegen
+        </a>
+    </div>
+</div>
+<hr/>
+<div>
+    <h2>Übersicht der Atemschutzgeräteträger</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/Images/agt.png" alt="Geräteträger" class="img-fluid" />
+            <div class="justify-content-center col d-flex align-items-center">
+                
+                <a class="btn btn-secondary mt-2 ml-2" asp-controller="Atemschutz" asp-action="DetailsAGT">
+                    Details
+                </a>
+            </div>
+        </div>
+        <div class="col-md-8" id="tblAGT">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Vorname</th>
+                        <th>Tauglich?</th>
+                        <th>Nächstes Ablaufdatum</th>
+                        <th>Was?</th>
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var agt in Model.AGT)
+                    {
+                        <tr>
+                            <td>@agt.lastName</td>
+                            <td>@agt.preName</td>
+                            <td>
+                                @if (agt.ExpiringDates.Min() >= DateTime.Now)
+                                {
+
+                                    <span class="fa fa-check-circle" style="expiring-green">Ja</span>
+                                }
+                                else
+                                {
+                                    <span class="fa fa-times-circle" style="expiring-red">Nein</span>
+                                }
+                            </td>
+                            <td style="@(agt.ExpiringDates.Min() <= DateTime.Now ? "expiring-red" :
+                 agt.ExpiringDates.Min() <= DateTime.Now.AddMonths(1) ? "expiring-orange" : "expiring-black")">
+                                @agt.ExpiringDates.Min().ToString("dd/MM/yyyy")
+                            </td>
+                            <td>@agt.GetEarliestExpirationField()</td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" asp-controller="Atemschutz" asp-action="CreateEditAGT" asp-route-id="@agt.Id">Ändern</a>
+                                <a class="btn btn-sm btn-danger" asp-controller="Atemschutz" asp-action="DeleteAGT" asp-route-id="@agt.Id">Entfernen</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<hr />
+<div>
+    <h2>Übersicht der Führerscheine</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <img src="~/Images/eu_fe_hinten.jpg" alt="Führerscheine" class="img-fluid" />
+            <div class="justify-content-center col d-flex align-items-center">
+                
+            </div>
+        </div>
+        <div class="col-md-9" id="tblFuehrerscheine">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Name</th>
+                        <th>Vorname</th>
+                        <th>Klasse</th>
+                        <th>Ablaufdatum</th>
+                        <th>Prüfdatum</th>
+                        <th>Verwendung</th>
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var fahrer in Model.DrivingLicenses)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    bool isExpired = fahrer.ExpiringDate <= DateTime.Now;  // Bedingung, die festlegt, ob es abgelaufen ist
+                                }
+                                <span class="fa fa-check-circle @(isExpired ? "expiring-red" : "expiring-green")">
+                                    @(isExpired ? "abgelaufen" : "Ok")
+                                </span>
+                            </td>
+                            <td>@fahrer.lastName</td>
+                            <td>@fahrer.preName</td>
+                            <td>@fahrer.FSKlasse</td>
+                            <td>@fahrer.ExpiringDate.ToString("dd/MM/yyyy")</td>
+                            <td>@fahrer.CheckDate.ToString("dd/MM/yyyy")</td>
+                            <td>@fahrer.Usage</td>
+                            <td>
+                                <a class="btn btn-sm btn-warning" asp-controller="Atemschutz" asp-action="CreateEditLicense" asp-route-id="@fahrer.Id">Ändern</a>
+                                <a class="btn btn-sm btn-secondary" asp-controller="Atemschutz" asp-action="CheckLicense" asp-route-id="@fahrer.Id">Prüfen</a>
+                                <a class="btn btn-sm btn-danger" asp-controller="Atemschutz" asp-action="CreateEditLicense" asp-route-id="@fahrer.Id">Entfernen</a>
+                                
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<hr />
+<div>
+    <h2>Übersicht der Atemschutzmasken</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/Images/atemschutzmaske.jpeg" alt="Atemschutzmaske" class="img-fluid" />
+            
+        </div>
+        <div class="col-md-8" id="tblMasken">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Maskennummer</th>
+                        <th>Ablaufdatum</th>
+                        <th>Personalisiert?</th>
+                        <th>Lagerplatz</th>
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var atemschutzmaske in Model.Atemschutzmasken)
+                    {
+                        <tr>
+                            <td>@atemschutzmaske.Number</td>
+                            <td style="@(atemschutzmaske.ExpiringDate <= DateTime.Now ? "expiring-red" :
+                 atemschutzmaske.ExpiringDate <= DateTime.Now.AddMonths(1) ? "expiring-orange" : "expiring-black")">
+                                @atemschutzmaske.ExpiringDate.ToString("MM/yyyy")
+                            </td>
+                            <td>
+                                @if (atemschutzmaske.IsPersonalized)
+                                {
+                                    <i class="fa fa-check-circle" style="color: green;">Ja</i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times-circle" style="color: red;">Nein</i>
+                                }
+
+                            <td>@atemschutzmaske.StoragePlace</td>
+                            <td>
+                                <a class="btn btn-sm btn-danger" asp-controller="Atemschutz" asp-action="DeleteMaske" asp-route-id="@atemschutzmaske.Id">Maske entfernen</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<hr />
+<div>
+    <h2>Übersicht der Atemschutzgeräte</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/Images/atemschutzgeraet.jpg" alt="Atemschutzgerät" class="img-fluid" />
+            
+        </div>
+        <div class="col-md-8" id="tblGeraete">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Gerätenummer</th>
+                        <th>Ablaufdatum</th>
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var atemschutzgeraet in Model.Atemschutzgeraete)
+                    {
+                        <tr>
+                            <td>@atemschutzgeraet.Number</td>
+                            <td style="@(atemschutzgeraet.ExpiringDate <= DateTime.Now ? "expiring-red" :
+                 atemschutzgeraet.ExpiringDate <= DateTime.Now.AddMonths(1) ? "expiring-orange" : "expiring-black")">
+                                @atemschutzgeraet.ExpiringDate.ToString("MM/yyyy")
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-danger" asp-controller="Atemschutz" asp-action="DeleteGeraet" asp-route-id="@atemschutzgeraet.Id">Gerät entfernen</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
