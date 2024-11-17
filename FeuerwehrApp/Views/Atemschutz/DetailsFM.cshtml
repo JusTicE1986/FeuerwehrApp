@@ -15,17 +15,27 @@
                         <th>Vorname</th>
                         <th>Geburtsdatum</th>
                         <th>Dienstgrad</th>
+                        <th>Beförderung</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var feuerwehrmann in Model.Feuerwehrmaenner)
                     {
-                        <tr>
+                        <tr class="justify-content-center">
                             <td>@feuerwehrmann.lastName</td>
                             <td>@feuerwehrmann.preName</td>
-                            <td>@feuerwehrmann.Geburtsdatum.ToString("dd/MMMM/yyyy")</td>
+                            <td>@feuerwehrmann.Geburtsdatum.ToString("dd/ MMMM yyyy")</td>
                             <td>
                                 @((ViewBag.Dienstgrade as Dictionary<int, string>)[(Int32)feuerwehrmann.dienstGrad])
+                            </td>
+                            <td>
+                                <a class="btn btn-primary mt-2" asp-controller="Atemschutz" asp-action="FMBefoerdern" asp-route-id=@feuerwehrmann.Id>
+                                    Befördern
+                                </a>
+                                <a class="btn btn-danger mt-2" asp-controller="Atemschutz" asp-action="FMDegradieren" asp-route-id=@feuerwehrmann.Id>
+                                    Degradieren
+                                </a>
                             </td>
                         </tr>
                     }

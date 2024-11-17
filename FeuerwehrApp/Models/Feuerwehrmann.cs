@@ -11,7 +11,18 @@ namespace FeuerwehrApp.Models
         public DateTime Geburtsdatum { get; set; }
 
         
+        public int FMBefoerdern(int dienstgrad)
+        {
+            dienstGrad +=1;
+            return dienstGrad;
             
+        }  
+        
+        public int FMDegradieren(int dienstgrad)
+        {
+            dienstGrad -= 1;
+            return dienstGrad;
+        }
             
     }
 }

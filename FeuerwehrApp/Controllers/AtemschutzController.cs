@@ -250,5 +250,23 @@ namespace FeuerwehrApp.Controllers
             };
             return View(viewModel); 
         }
+        public IActionResult FMBefoerdern(int id)
+        {
+            var fm = _context.Feuerwehrmann.Find(id);
+            fm.dienstGrad = fm.FMBefoerdern(fm.dienstGrad);
+            _context.Update(fm);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(DetailsFM));
+        }
+        public IActionResult FMDegradieren(int id) 
+        {
+            var fm = _context.Feuerwehrmann.Find(id);
+            fm.dienstGrad = fm.FMDegradieren(fm.dienstGrad);
+            _context.Update(fm);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(DetailsFM));
+        }
     }
 }
